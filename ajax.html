@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+	<title>Ajax Request</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript">
+	var xmlhttp;
+	/*function getNum() {
+		xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = callback;
+	
+		xmlhttp.open("POST", "http://i26791:8080/skynet/rest/recipients/create", true);
+		//xmlhttp.open("GET", "random.php", false);
+		console.log("After xmlhttp.open");
+		xmlhttp.send();
+
+	}
+	//When information comes back from the server
+	function callback() {
+		console.log("Ready State: " + xmlhttp.readyState + " \Status " + xmlhttp.status);
+		if(xmlhttp.readyState == 4 && xmlhttp.status ==  200)
+		{
+			document.getElementById('result').innerHTML = xmlhttp.responseText;
+		}
+	}
+
+	(function($) {
+		$(document).ready(function() {
+			var message = {title: 'Jimmy Bean', body: 'Lets see what happens'};
+			var serializedJSON = JSON.stringify(message);
+			alert(serializedJSON);
+		});
+	});*/
+
+	/*function getResponse() {
+
+		$.ajax({
+			type: "POST",
+			url: "http://i26791:8080/skynet/rest/recipients/create",
+			headers: {"Access-Control-Allow-Origin: *"},
+			processData: true,
+			data: {},
+			dataType: "json",
+			success: function(data) {
+				processData(data);
+			}
+		});
+
+		function processData(data) 
+		{
+			console.log(data);
+		}*/
+		/*xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if(xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+				
+					console.log(this.responseText);
+			}
+		}
+			xmlhttp.open("POST", "//i26791:8080/skynet/rest/recipients/create", true);
+			xmlhttp.setRequestHeader('Content-Type', 'text/html;charset=utf-8');
+			xmlhttp.send();
+
+
+		
+	}*/
+
+// Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+// Helper method to parse the title tag from the response.
+function getTitle(text) {
+  return text.match('<title>(.*)?</title>')[1];
+}
+
+// Make the actual CORS request.
+function makeCorsRequest() {
+  // All HTML5 Rocks properties support CORS.
+  var url = '//i26791:8080/skynet/rest/recipients/create';
+
+  var xhr = createCORSRequest('POST', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+    var title = getTitle("testing");
+    alert(title);
+    alert('Response from CORS request to ' + url + ': ' + title);
+  };
+
+  xhr.onerror = function() {
+  	var title = getTitle("testing");
+    alert('Woops, there was an error making the request.');
+    alert('Response from CORS request to ' + url + ': ' + title);
+
+   
+  };
+
+  xhr.send();
+}
+
+	</script>
+</head>
+<body>
+<div id="result">
+
+</div>
+<input type="button" value="Get Response" onclick="makeCorsRequest()" />
+
+
+</body>
+</html>
